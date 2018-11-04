@@ -1,0 +1,24 @@
+{
+    "type": "object",
+    "properties": {
+        "password": {
+            "type": "string"
+        },
+        "algorithm": {
+            "type": "string"
+        },
+        "salt": {
+            "type": "string"
+        },
+        "digest": {
+            "type": "string"
+        },
+        "iterations": {
+            "type": "number"
+        },
+        "keylen": {
+            "type": "number"
+        }
+    },
+    "additionalProperties": false
+}
