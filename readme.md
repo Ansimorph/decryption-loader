@@ -1,7 +1,7 @@
 [![npm][npm]][npm-url]
 [![deps][deps]][deps-url]
 
-#Decryption Loader
+# Decryption Loader
 
 Decrypt assets that where encrypted with [node-cipher](https://www.npmjs.com/package/node-cipher).
 
