@@ -1,13 +1,13 @@
 {
-  "name": "decryption-loader",
-  "version": "0.0.1",
-  "description": "Decrypts assets encrypted by node-cipher",
-  "main": "index.js",
-  "author": "Björn Ganslandt",
-  "license": "MIT",
-  "private": false,
-  "dependencies": {
-    "loader-utils": "^1.1.0",
-    "schema-utils": "^1.0.0"
-  }
+    "name": "decryption-loader",
+    "version": "0.0.1",
+    "description": "Webpack loader that decrypts assets encrypted by node-cipher",
+    "main": "index.js",
+    "author": "Björn Ganslandt",
+    "license": "MIT",
+    "private": false,
+    "dependencies": {
+        "loader-utils": "^1.1.0",
+        "schema-utils": "^1.0.0"
+    }
 }
