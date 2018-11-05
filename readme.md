@@ -57,11 +57,15 @@ Decryption loader mirrors the [options available in node-cipher][https://github.
 
 ## An Example
 
+### 1: Encrypt
+
 Say you have `font.woff`, a commercial font that you want to include in your public repository, but can't because of licensing issues. Let's encrypt it to solve this problem:
 
 ```bash
 nodecipher enc font.woff font.woff.cast5 -p password
 ```
+
+### 2: Store password
 
 We need a save place to store the password. We'll put it in the environment variable `PASSWORD`. We can use [dotenv](https://www.npmjs.com/package/dotenv) to set the variable in the context of our local repo:
 
@@ -83,6 +87,8 @@ Be sure to add the unencrypted font file and `.env` to your `.gitignore` to keep
 font.woff
 .env
 ```
+
+### 3: Decrypt
 
 Now we have to decrypt the font at build time using webpack:
 
