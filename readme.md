@@ -2,7 +2,7 @@
 
 # Decryption Loader
 
-Decrypt assets that were encrypted with [node-cipher][node-cipher-url] in webpack.
+Decrypt assets that were encrypted with [node-cipher][node-cipher-url] in webpack
 
 ## Why?
 
@@ -48,13 +48,12 @@ Be careful: Your webpack configuration file is probably not a safe place to keep
 
 Decryption loader mirrors the [options available in node-cipher][https://github.com/nathanbuchar/node-cipher/blob/master/docs/using-the-node-js-api.md#options]:
 
--   `password` (string) _required_: The password used to derive the encryption key
--   `algorithm` (string): The algorithm used to encrypt the data. Run `nodecipher -A` for a complete list of available algorithms. Default is `cast5`
--   `salt` (string): The salt used to derive the encryption key. Default is `nodecipher`
--   `iterations` (number): The number of iterations used to derive the key. Default is `1000`
--   `keylen` (number): The byte length of the derived key. Default is `512`
--   `digest` (string): The hash function used to derive the key.
--   `algorithm` (string): The algorithm used to encrypt the data. Run `nodecipher -H` for a complete list of available hash algorithms Default is `sha1`
+-   **`password`** (string) _required_: The password used to derive the encryption key
+-   **`algorithm`** (string): The algorithm used to encrypt the data. Run `nodecipher -A` for a complete list of available algorithms. Default is _cast5_
+-   **`salt`** (string): The salt used to derive the encryption key. Default is _nodecipher_
+-   **`iterations`** (number): The number of iterations used to derive the key. Default is _1000_
+-   **`keylen`** (number): The byte length of the derived key. Default is _512_
+-   **`digest`** (string): The hash function used to derive the key. Run `nodecipher -H` for a complete list of available hash algorithms Default is _sha1_
 
 ## An Example
 
