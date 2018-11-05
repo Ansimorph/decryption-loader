@@ -1,13 +1,12 @@
 [![npm][npm]][npm-url]
-[![deps][deps]][deps-url]
 
-#Decryption Loader
+# Decryption Loader
 
-Decrypt assets that where encrypted with [node-cipher](https://www.npmjs.com/package/node-cipher).
+Decrypt assets that were encrypted with [node-cipher][node-cipher-url] in webpack.
 
 ## Why?
 
-If your public repository includes files you can't share with the world, one solution is to encrypt them. [node-cipher](https://www.npmjs.com/package/node-cipher) is a node-based cli for this purpose. Decryption-loader allows you to decrypt these assets at build-time.
+If your public repository includes files you can't share with the world, one solution is to encrypt them. [node-cipher][node-cipher-url] is a node-based cli for this purpose. Decryption-loader allows you to decrypt encrypted assets at build-time right in webpack.
 
 ## Install
 
@@ -15,15 +14,113 @@ If your public repository includes files you can't share with the world, one sol
 npm install decryption-loader
 ```
 
-## Use
+To encrypt files, install [node-cipher][node-cipher-url]:
 
-TODO
+```bash
+npm install node-cipher -g
+```
 
-## Example
+## Usage
 
-TODO
+**webpack.config.js**
+
+```js
+module.exports = {
+    // ...
+    module: {
+        rules: [
+            {
+                test: /\.cast5$/,
+                loader: "decryption-loader",
+                options: {
+                    password: "password",
+                },
+            },
+        ],
+    },
+    // ...
+};
+```
+
+Be careful: Your webpack configuration file is probably not a safe place to keep passwords.
+
+## Options
+
+Decryption loader mirrors the [options available in node-cipher][https://github.com/nathanbuchar/node-cipher/blob/master/docs/using-the-node-js-api.md#options]:
+
+-   `password` (string) _required_: The password used to derive the encryption key
+-   `algorithm` (string): The algorithm used to encrypt the data. Run `nodecipher -A` for a complete list of available algorithms. Default is `cast5`
+-   `salt` (string): The salt used to derive the encryption key. Default is `nodecipher`
+-   `iterations` (number): The number of iterations used to derive the key. Default is `1000`
+-   `keylen` (number): The byte length of the derived key. Default is `512`
+-   `digest` (string): The hash function used to derive the key.
+-   `algorithm` (string): The algorithm used to encrypt the data. Run `nodecipher -H` for a complete list of available hash algorithms Default is `sha1`
+
+## An Example
+
+Say you have `font.woff`, a commercial font that you want to include in your public repository, but can't because of licensing issues. Let's encrypt it to solve this problem:
+
+```bash
+nodecipher enc font.woff font.woff.cast5 -p password
+```
+
+We need a save place to store the password. We'll put it in the environment variable `PASSWORD`. We can use [dotenv](https://www.npmjs.com/package/dotenv) to set the variable in the context of our local repo:
+
+```bash
+npm install dotenv
+```
+
+**.env**
+
+```bash
+PASSWORD=password
+```
+
+Be sure to add the unencrypted font file and `.env` to your `.gitignore` to keep them out of the public repo:
+
+**.gitignore**
+
+```bash
+font.woff
+.env
+```
+
+Now we have to decrypt the font at build time using webpack:
+
+**webpack.config.js**
+
+```js
+/*  Read variables from .env
+    If actual environment variables are set
+    the values in .env are ignored */
+require("dotenv").config();
+
+module.exports = {
+    // ...
+    module: {
+        rules: [
+            {
+                test: /\.(cast5)$/,
+                use: [
+                    {
+                        loader: "file-loader",
+                        // Not including [ext] strips the .cast5 extension from the filename
+                        options: { name: "[name]" },
+                    },
+                    {
+                        loader: "decryption-loader",
+                        options: { password: process.env.PASSWORD },
+                    },
+                ],
+            },
+        ],
+    },
+    // ...
+};
+```
+
+And we're done. The encrypted file is now decrypted and then processed by file-loader as `font.woff`. You can reference the encrypted file `font.woff.cast5` in your CSS like a normal font file.
 
 [npm]: https://img.shields.io/npm/v/decryption-loader.svg
 [npm-url]: https://npmjs.com/package/decryption-loader
-[deps]: https://david-dm.org/webpack/decryption-loader.svg
-[deps-url]: https://david-dm.org/webpack/decryption-loader
+[node-cipher-url]: https://www.npmjs.com/package/node-cipher
