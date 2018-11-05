@@ -1,6 +1,6 @@
 {
     "name": "decryption-loader",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "Webpack loader that decrypts assets encrypted by node-cipher",
     "repository": "https://github.com/Ansimorph/decryption-loader/",
     "main": "index.js",
