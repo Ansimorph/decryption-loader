@@ -46,7 +46,7 @@ Be careful: Your webpack configuration file is probably not a safe place to keep
 
 ## Options
 
-Decryption loader mirrors the [options available in node-cipher][https://github.com/nathanbuchar/node-cipher/blob/master/docs/using-the-node-js-api.md#options]:
+Decryption loader mirrors the [options available in node-cipher](https://github.com/nathanbuchar/node-cipher/blob/master/docs/using-the-node-js-api.md#options):
 
 -   **`password`** (string) _required_: The password used to derive the encryption key
 -   **`algorithm`** (string): The algorithm used to encrypt the data. Run `nodecipher -A` for a complete list of available algorithms. Default is _cast5_
