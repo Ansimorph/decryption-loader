@@ -1,9 +1,12 @@
 {
     "name": "decryption-loader",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Webpack loader that decrypts assets encrypted by node-cipher",
     "repository": "https://github.com/Ansimorph/decryption-loader/",
     "main": "index.js",
+    "scripts": {
+        "test": "jest"
+    },
     "author": "Björn Ganslandt",
     "license": "MIT",
     "private": false,
@@ -16,5 +19,13 @@
     "dependencies": {
         "loader-utils": "^1.1.0",
         "schema-utils": "^1.0.0"
+    },
+    "devDependencies": {
+        "del": "^3.0.0",
+        "jest": "^23.6.0",
+        "memory-fs": "^0.4.1",
+        "node-cipher": "^6.3.3",
+        "raw-loader": "^1.0.0",
+        "webpack": "^4.28.2"
     }
 }
