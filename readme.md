@@ -1,4 +1,5 @@
 [![npm][npm]][npm-url]
+![travis-url][travis-url]
 
 # Decryption Loader
 
@@ -128,4 +129,5 @@ And we're done. The encrypted file is now decrypted and then processed by file-l
 
 [npm]: https://img.shields.io/npm/v/decryption-loader.svg
 [npm-url]: https://npmjs.com/package/decryption-loader
+[travis-url]: https://travis-ci.com/Ansimorph/decryption-loader.svg?branch=master
 [node-cipher-url]: https://www.npmjs.com/package/node-cipher
