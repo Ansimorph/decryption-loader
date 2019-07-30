@@ -21,7 +21,7 @@
         "schema-utils": "^1.0.0"
     },
     "devDependencies": {
-        "del": "^4.0.0",
+        "del": "^5.0.0",
         "jest": "^24.0.0",
         "memory-fs": "^0.4.1",
         "node-cipher": "^6.3.3",
