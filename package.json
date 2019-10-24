@@ -23,7 +23,7 @@
     "devDependencies": {
         "del": "^5.0.0",
         "jest": "^24.0.0",
-        "memory-fs": "^0.4.1",
+        "memory-fs": "^0.5.0",
         "node-cipher": "^6.3.3",
         "raw-loader": "^3.0.0",
         "webpack": "^4.28.2"
