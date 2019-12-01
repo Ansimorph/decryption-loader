@@ -28,7 +28,7 @@ async function enAndDecrypt(options) {
 
     return compiler(`${filename}`, webpackConfig).then(stats => {
         const { source } = stats.toJson().modules[0];
-        expect(source).toBe("export default \"The Truth\"");
+        expect(source).toBe("export default \"The Truth\";");
 
         del.sync(`test/${filename}`);
     });
