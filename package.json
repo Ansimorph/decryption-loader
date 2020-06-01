@@ -22,7 +22,7 @@
     },
     "devDependencies": {
         "del": "^5.0.0",
-        "jest": "^25.1.0",
+        "jest": "^26.0.1",
         "memory-fs": "^0.5.0",
         "node-cipher": "^6.3.3",
         "raw-loader": "^4.0.0",
