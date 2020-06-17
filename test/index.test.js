@@ -1,50 +1,36 @@
 const compiler = require("./compiler.js");
-const nodecipher = require("node-cipher");
-const crypto = require("crypto");
+const cryptoUtils = require("../dist/cryptoUtils");
 const del = require("del");
 
+const FILENAME = "test/fixture.txt";
+const FILENAME_ENCRYPTED = "test/fixture.txt.enc";
+
 async function enAndDecrypt(options) {
-    // Generate unique filename for encrypted file
-    const hash = crypto
-        .createHash("md5")
-        .update(JSON.stringify(options))
-        .digest("hex");
-    const filename = `fixture.txt.${hash}.enc`;
+  // Encrypt
+  cryptoUtils.encryptFile(FILENAME, options.password, options.salt);
 
-    // Encrypt
-    const nodecipherConfig = {
-        input: "test/fixture.txt",
-        output: `test/${filename}`,
-    };
+  // Decrypt
+  const webpackConfig = {
+    loader: {
+      options: options,
+    },
+  };
 
-    nodecipher.encryptSync(Object.assign(nodecipherConfig, options));
+  return compiler("../" + FILENAME_ENCRYPTED, webpackConfig).then((stats) => {
+    const { source } = stats.toJson().modules[0];
+    expect(source).toContain('The Truth');
 
-    // Decrypt
-    const webpackConfig = {
-        loader: {
-            options: options,
-        },
-    };
-
-    return compiler(`${filename}`, webpackConfig).then(stats => {
-        const { source } = stats.toJson().modules[0];
-        expect(source).toBe("export default \"The Truth\";");
-
-        del.sync(`test/${filename}`);
-    });
+    del.sync(FILENAME_ENCRYPTED);
+  });
 }
 
 test("Decrypt with default settings", () => {
-    return enAndDecrypt({ password: "passwörd" });
+  return enAndDecrypt({ password: "passwörd" });
 });
 
-test("Decrypt with non-default settings", () => {
-    return enAndDecrypt({
-        password: "passlörd",
-        algorithm: "aes-128-cbc",
-        salt: "pepper",
-        iterations: 2,
-        keylen: 256,
-        digest: "md5",
-    });
+test("Decrypt with custom salt", () => {
+  return enAndDecrypt({
+    password: "passlörd",
+    salt: "pepper",
+  });
 });

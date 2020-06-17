@@ -3,11 +3,11 @@
 
 # Decryption Loader
 
-Decrypt assets that were encrypted with [node-cipher][node-cipher-url] in webpack
+Decrypt assets with webpack
 
 ## Why?
 
-If your public repository includes files you can't share with the world, one solution is to encrypt them. [node-cipher][node-cipher-url] is a node-based cli for this purpose. Decryption-loader allows you to decrypt encrypted assets at build-time right in webpack.
+If your public repository includes files you can't share with the world, one solution is to encrypt them. Decryption-loader allows you to encrypt assets via CLI and decrypt them at build-time right in webpack.
 
 ## Install
 
@@ -15,13 +15,15 @@ If your public repository includes files you can't share with the world, one sol
 npm install decryption-loader
 ```
 
-To encrypt files, install [node-cipher][node-cipher-url]:
+## Encryption
 
 ```bash
-npm install node-cipher -g
+npx decryption-loader example.txt
 ```
 
-## Usage
+You will be prompted for a password and an encrypted file `example.txt.enc` is created.
+
+## Decryption
 
 **webpack.config.js**
 
@@ -47,14 +49,8 @@ Be careful: Your webpack configuration file is probably not a safe place to keep
 
 ## Options
 
-Decryption loader mirrors the [options available in node-cipher](https://github.com/nathanbuchar/node-cipher/blob/master/docs/using-the-node-js-api.md#options):
-
 -   **`password`** (string) _required_: The password used to derive the encryption key
--   **`algorithm`** (string): The algorithm used to encrypt the data. Run `nodecipher -A` for a complete list of available algorithms. Default is _cast5_
--   **`salt`** (string): The salt used to derive the encryption key. Default is _nodecipher_
--   **`iterations`** (number): The number of iterations used to derive the key. Default is _1000_
--   **`keylen`** (number): The byte length of the derived key. Default is _512_
--   **`digest`** (string): The hash function used to derive the key. Run `nodecipher -H` for a complete list of available hash algorithms Default is _sha1_
+-   **`salt`** (string): The salt used to derive the encryption key. Default is _secure_
 
 ## An Example
 
@@ -63,7 +59,7 @@ Decryption loader mirrors the [options available in node-cipher](https://github.
 Say you have `font.woff`, a commercial font that you want to include in your public repository, but can't because of licensing issues. Let's encrypt it to solve this problem:
 
 ```bash
-nodecipher enc font.woff font.woff.cast5 -p password
+npx decryption-loader font.woff
 ```
 
 ### 2: Store password
@@ -106,7 +102,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(cast5)$/,
+                test: /\.(enc)$/,
                 use: [
                     {
                         loader: "file-loader",
@@ -125,8 +121,7 @@ module.exports = {
 };
 ```
 
-And we're done. The encrypted file is now decrypted and then processed by file-loader as `font.woff`. You can reference the encrypted file `font.woff.cast5` in your CSS like a normal font file.
+And we're done. The encrypted file is now decrypted and then processed by file-loader as `font.woff`. You can reference the encrypted file `font.woff.enc` in your CSS like a normal font file.
 
 [npm]: https://img.shields.io/npm/v/decryption-loader.svg
 [npm-url]: https://npmjs.com/package/decryption-loader
-[node-cipher-url]: https://www.npmjs.com/package/node-cipher
