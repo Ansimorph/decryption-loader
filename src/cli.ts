@@ -1,7 +1,6 @@
 import inquirer from "inquirer";
+import minimist from "minimist";
 import { encryptFile } from "./cryptoUtils";
-
-const fileName = process.argv[2];
 
 function cannotBeEmpty(value: string) {
   if (value && value !== "") {
@@ -16,9 +15,13 @@ function fail() {
   process.exit(1);
 }
 
-function main() {
+export function main() {
+  const argv = minimist(process.argv.slice(2));
+  const fileName = argv._[0];
+
   if (!fileName) {
     fail();
+    return;
   }
 
   inquirer
@@ -32,7 +35,6 @@ function main() {
     ])
     .then((answers) => {
       encryptFile(fileName, answers.password);
+      console.log(`Sucessfully encrypted to: ${fileName}.enc`);
     });
 }
-
-main();

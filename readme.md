@@ -33,7 +33,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.cast5$/,
+                test: /\.enc$/,
                 loader: "decryption-loader",
                 options: {
                     password: "password",
@@ -50,7 +50,6 @@ Be careful: Your webpack configuration file is probably not a safe place to keep
 ## Options
 
 -   **`password`** (string) _required_: The password used to derive the encryption key
--   **`salt`** (string): The salt used to derive the encryption key. Default is _secure_
 
 ## An Example
 

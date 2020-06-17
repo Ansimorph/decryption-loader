@@ -13,7 +13,6 @@ const validationErrorOptions = {
 } as ValidationErrorConfiguration;
 
 interface Options {
-  salt?: string,
   password: string
 }
 
@@ -27,7 +26,7 @@ function loader(this: webpack.loader.LoaderContext, content: any): Buffer {
   validateOptions(validationSchema as Schema, options, validationErrorOptions);
 
   // Derive Key from password
-  const key = getKey(options.password, options.salt);
+  const key = getKey(options.password);
 
   // Run Decryption
   const decipher = getDecipher(key, getIVFromBuffer(content));

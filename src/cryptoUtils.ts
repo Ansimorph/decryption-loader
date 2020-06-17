@@ -13,7 +13,7 @@ const ITERATIONS = 1000;
 const KEY_LENGTH = 32;
 const DIGEST = "sha1";
 const CIPHER = "aes-256-cbc";
-const DEFAULT_SALT = "secure";
+const DEFAULT_SALT = "salty";
 const IV_LENGTH = 16;
 
 export function getKey(
@@ -39,7 +39,7 @@ export function getIVFromBuffer(buffer: Buffer): Buffer {
 }
 
 export function getCipherTextFromBuffer(buffer: Buffer): Buffer {
-  const ciphertext = Buffer.alloc(IV_LENGTH);
+  const ciphertext = Buffer.alloc(buffer.length - IV_LENGTH);
   buffer.copy(ciphertext, 0, IV_LENGTH, buffer.length);
 
   return ciphertext;
@@ -52,9 +52,9 @@ export function encryptFile(file: string, key: string, salt?: string) {
   // Generate a cipher key from the password.
   const readStream = createReadStream(file);
   const cipher = getCipher(getKey(key, salt), initVector);
-  const appendInitVect = new AppendInitVector(initVector);
+  const appendInitVector = new AppendInitVector(initVector);
   // Create a write stream with a different file extension.
   const writeStream = createWriteStream(path.join(file + ".enc"));
 
-  readStream.pipe(cipher).pipe(appendInitVect).pipe(writeStream);
+  readStream.pipe(cipher).pipe(appendInitVector).pipe(writeStream);
 }
