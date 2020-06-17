@@ -1,31 +1,36 @@
 {
-    "name": "decryption-loader",
-    "version": "1.1.8",
-    "description": "Webpack loader that decrypts assets encrypted by node-cipher",
-    "repository": "https://github.com/Ansimorph/decryption-loader/",
-    "main": "index.js",
-    "scripts": {
-        "test": "jest"
-    },
-    "author": "Björn Ganslandt",
-    "license": "MIT",
-    "private": false,
-    "keywords": [
-        "webpack",
-        "decrypt",
-        "cipher",
-        "loader"
-    ],
-    "dependencies": {
-        "loader-utils": "^2.0.0",
-        "schema-utils": "^2.0.1"
-    },
-    "devDependencies": {
-        "del": "^5.0.0",
-        "jest": "^26.0.1",
-        "memory-fs": "^0.5.0",
-        "node-cipher": "^6.3.3",
-        "raw-loader": "^4.0.0",
-        "webpack": "^4.28.2"
-    }
+  "name": "decryption-loader",
+  "version": "2.0.0",
+  "description": "Webpack loader that decrypts assets encrypted by node-cipher",
+  "repository": "https://github.com/Ansimorph/decryption-loader/",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --version && tsc",
+    "test": "jest"
+  },
+  "author": "Björn Ganslandt",
+  "license": "MIT",
+  "private": false,
+  "keywords": [
+    "webpack",
+    "decrypt",
+    "cipher",
+    "loader"
+  ],
+  "dependencies": {
+    "loader-utils": "^2.0.0",
+    "schema-utils": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/loader-utils": "^2.0.1",
+    "@types/webpack": "^4.41.17",
+    "del": "^5.0.0",
+    "jest": "^26.0.1",
+    "memory-fs": "^0.5.0",
+    "node-cipher": "^6.3.3",
+    "prettier": "^2.0.5",
+    "raw-loader": "^4.0.0",
+    "typescript": "^3.9.5",
+    "webpack": "^4.28.2"
+  }
 }
