@@ -1,50 +1,59 @@
+const path = require("path");
+const exec = require("child_process").exec;
 const compiler = require("./compiler.js");
-const nodecipher = require("node-cipher");
-const crypto = require("crypto");
 const del = require("del");
 
-async function enAndDecrypt(options) {
-    // Generate unique filename for encrypted file
-    const hash = crypto
-        .createHash("md5")
-        .update(JSON.stringify(options))
-        .digest("hex");
-    const filename = `fixture.txt.${hash}.enc`;
+const FILENAME = "./test/fixture.txt";
+const FILENAME_ENCRYPTED = "./test/fixture.txt.enc";
+const PASSWORD = "PASSWORD";
 
-    // Encrypt
-    const nodecipherConfig = {
-        input: "test/fixture.txt",
-        output: `test/${filename}`,
-    };
+// Calls CLI with command line args and enters password
+function cli(args, password) {
+  const CWD = ".";
 
-    nodecipher.encryptSync(Object.assign(nodecipherConfig, options));
+  return new Promise((resolve) => {
+    const childProcess = exec(
+      `node ${path.resolve("./cli.js")} ${args.join(" ")}`,
+      { CWD },
+      (error, stdout, stderr) => {
+        resolve({
+          code: error && error.code ? error.code : 0,
+          error,
+          stdout,
+          stderr,
+        });
+      }
+    );
 
-    // Decrypt
-    const webpackConfig = {
-        loader: {
-            options: options,
-        },
-    };
-
-    return compiler(`${filename}`, webpackConfig).then(stats => {
-        const { source } = stats.toJson().modules[0];
-        expect(source).toBe("export default \"The Truth\";");
-
-        del.sync(`test/${filename}`);
-    });
+    if (password) {
+      process.nextTick(() => {
+        childProcess.stdin.write(password + "\n");
+      });
+    }
+  });
 }
 
-test("Decrypt with default settings", () => {
-    return enAndDecrypt({ password: "passwörd" });
+test("Should fail without filename", async () => {
+  let result = await cli([]);
+  expect(result.code).toBe(1);
 });
 
-test("Decrypt with non-default settings", () => {
-    return enAndDecrypt({
-        password: "passlörd",
-        algorithm: "aes-128-cbc",
-        salt: "pepper",
-        iterations: 2,
-        keylen: 256,
-        digest: "md5",
-    });
+test("Should encrypt and decrypt", async () => {
+  // Encrypt with CLI
+  const result = await cli([FILENAME], PASSWORD);
+  expect(result.code).toBe(0);
+
+  // Decrypt with Webpack
+  const webpackConfig = {
+    loader: {
+      options: { password: PASSWORD },
+    },
+  };
+
+  return compiler("../" + FILENAME_ENCRYPTED, webpackConfig).then((stats) => {
+    const { source } = stats.toJson().modules[0];
+    expect(source).toContain("The Truth");
+
+    del.sync(FILENAME_ENCRYPTED);
+  });
 });
