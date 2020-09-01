@@ -25,7 +25,7 @@
     "inquirer": "^7.2.0"
   },
   "devDependencies": {
-    "@types/inquirer": "^6.5.0",
+    "@types/inquirer": "^7.3.1",
     "@types/loader-utils": "^2.0.1",
     "@types/minimist": "^1.2.0",
     "@types/webpack": "^4.41.17",
