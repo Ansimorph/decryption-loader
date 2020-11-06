@@ -1,6 +1,5 @@
-import * as webpack from "webpack";
-import * as loaderUtils from "loader-utils";
-import validateOptions from "schema-utils";
+import { getOptions } from 'loader-utils';
+import { validate } from 'schema-utils';
 import validationSchema from "./options-schema.json";
 import {
   Schema,
@@ -16,14 +15,11 @@ interface Options {
   password: string
 }
 
-function loader(this: webpack.loader.LoaderContext, content: any): Buffer {
-  // Result can be cached
-  this.cacheable && this.cacheable();
-
+function loader(this: Options, content: any): Buffer {
   // Get and validate options
-  const options = loaderUtils.getOptions(this) as unknown as Options;
+  const options = getOptions<Options>(this);
 
-  validateOptions(validationSchema as Schema, options, validationErrorOptions);
+  validate(validationSchema as Schema, options, validationErrorOptions);
 
   // Derive Key from password
   const key = getKey(options.password);

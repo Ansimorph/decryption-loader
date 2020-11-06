@@ -50,9 +50,9 @@ test("Should encrypt and decrypt", async () => {
     },
   };
 
-  return compiler("../" + FILENAME_ENCRYPTED, webpackConfig).then((stats) => {
-    const { source } = stats.toJson().modules[0];
-    expect(source).toContain("The Truth");
+  return compiler("../" + FILENAME_ENCRYPTED, webpackConfig).then(({stats, fs}) => {
+    const output = fs.readFileSync(path.resolve(process.cwd(), "main.js")).toString();
+    expect(output).toContain("The Truth");
 
     del.sync(FILENAME_ENCRYPTED);
   });

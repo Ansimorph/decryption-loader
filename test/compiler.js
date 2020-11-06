@@ -16,10 +16,8 @@ const mode = config => {
 const optimize = config => {
     if (Number(version[0]) >= 4) {
         config.optimization = config.optimization || {
-            namedChunks: true,
-            namedModules: true,
-            runtimeChunk: true,
-            occurrenceOrder: true,
+            chunkIds: "named",
+            moduleIds: "named",
         };
     }
 
@@ -63,7 +61,7 @@ const output = config => {
     return {
         path: path.resolve(
             process.cwd(),
-            `test/outputs/${config.output ? config.output : ""}`,
+            `${config.output ? config.output : ""}`,
         ),
         // publicPath: 'assets/',
         filename: "[name].js",
@@ -105,7 +103,7 @@ module.exports = function(fixture, config, options) {
         compiler.run((err, stats) => {
             if (err) reject(err);
 
-            resolve(stats);
+            resolve({stats, fs: compiler.outputFileSystem});
         }),
     );
 };
