@@ -28,7 +28,7 @@
     "@types/inquirer": "^7.3.1",
     "@types/loader-utils": "^2.0.1",
     "@types/minimist": "^1.2.0",
-    "@types/webpack": "^4.41.17",
+    "@types/webpack": "^5.28.0",
     "del": "^6.0.0",
     "jest": "^27.0.3",
     "memory-fs": "^0.5.0",
