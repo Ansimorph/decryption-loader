@@ -22,7 +22,7 @@
     "loader-utils": "^2.0.0",
     "minimist": "^1.2.5",
     "schema-utils": "^2.0.1",
-    "inquirer": "^7.2.0"
+    "inquirer": "^8.1.5"
   },
   "devDependencies": {
     "@types/inquirer": "^7.3.1",
