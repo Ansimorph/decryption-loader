@@ -21,7 +21,7 @@
   "dependencies": {
     "loader-utils": "^2.0.0",
     "minimist": "^1.2.5",
-    "schema-utils": "^2.0.1",
+    "schema-utils": "^4.0.0",
     "inquirer": "^7.2.0"
   },
   "devDependencies": {
